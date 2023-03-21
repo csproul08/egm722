@@ -24,5 +24,5 @@ while guess != rand:  # if the guess is not equal to the random number, you have
     num = int(guess)
     num_guesses += 1
 
-print('You got it! The number was {}'.format(rand))
+print('You cracked it old boy! The number was {}'.format(rand))
 print("Number of guesses:", num_guesses)
