@@ -6,8 +6,7 @@ import random
 rand = random.randint(1, 20)
 
 # count the number of guesses
-num_guesses = 0
-total = 0
+num_guesses = 1
 
 print('Guess a number between 1 and 20.')
 guess = int(input())  # number needs to be an integer
