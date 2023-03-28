@@ -5,14 +5,38 @@ from cartopy.feature import ShapelyFeature
 import cartopy.crs as ccrs
 import matplotlib.patches as mpatches
 
-
 # ---------------------------------------------------------------------------------------------------------------------
 # in this section, write the script to load the data and complete the main part of the analysis.
 # try to print the results to the screen using the format method demonstrated in the workbook
 
 # load the necessary data here and transform to a UTM projection
+# Load the counties and ward data
+wards = gpd.read_file('data_files/NI_Wards.shp')
+counties = gpd.read_file('data_files/Counties.shp')
 
-# your analysis goes here...
+# Transform the CRS to EPSG 2157 for both wards and counties
+wards = wards.to_crs(epsg=2157)
+counties = counties.to_crs(epsg=2157)
+
+# check if CRS is the same
+print(counties.crs == wards.crs)
+
+# Using a spatial join, summarize the total population by county. What county has the highest population? What about the lowest?
+join = gpd.sjoin(counties, wards, how='inner', lsuffix='left', rsuffix='right') # perform the spatial join
+
+# Summarize the total population by county
+pop_by_county = join.groupby('CountyName')['Population'].sum()
+
+# Find the counties with the highest and lowest population
+max_pop_county = pop_by_county.idxmax()
+min_pop_county = pop_by_county.idxmin()
+
+# Print the total population by county and the counties with the highest and lowest population
+print("Total Population by County:")
+print(pop_by_county)
+print("County with the Highest Population:", max_pop_county)
+print("County with the Lowest Population:", min_pop_county)
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # below here, you may need to modify the script somewhat to create your map.
