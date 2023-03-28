@@ -23,8 +23,9 @@ plt.ion()
 # try to print the results to the screen using the format method demonstrated in the workbook
 
 # load the necessary data here and transform to a UTM projection
-wards = gpd.read_file('../workbooks/Week3/data_files/NI_Wards.shp').to_crs(epsg=32629)
-counties = gpd.read_file('../workbooks/Week3/data_files/Counties.shp').to_crs(epsg=32629)
+wards = gpd.read_file('data_files/NI_Wards.shp').to_crs(epsg=32629)
+counties = gpd.read_file('data_files/Counties.shp').to_crs(epsg=32629)
+
 # your analysis goes here...
 
 join = gpd.sjoin(wards, counties, how='inner', lsuffix='left', rsuffix='right')
@@ -63,5 +64,5 @@ county_handles = generate_handles([''], ['none'], edge='r')
 ax.legend(county_handles, ['County Boundaries'], fontsize=12, loc='upper left', framealpha=1)
 
 # save the figure
-# fig.savefig('sample_map.png', dpi=300, bbox_inches='tight')
+fig.savefig('sample_example_map.png', dpi=300, bbox_inches='tight')
 

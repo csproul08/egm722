@@ -24,7 +24,7 @@ print(counties.crs == wards.crs)
 # Using a spatial join, summarize the total population by county. What county has the highest population? What about the lowest?
 join = gpd.sjoin(counties, wards, how='inner', lsuffix='left', rsuffix='right') # perform the spatial join
 
-# Summarize the total population by county
+# Summarise the total population by county
 pop_by_county = join.groupby('CountyName')['Population'].sum()
 
 # Find the counties with the highest and lowest population
@@ -37,7 +37,19 @@ print(pop_by_county)
 print("County with the Highest Population:", max_pop_county)
 print("County with the Lowest Population:", min_pop_county)
 
+# ADDITIONAL EXERCISE QUESTION NO.2
+# Summarise the total population by ward
+pop_by_ward = join.groupby('Ward')['Population'].sum()
 
+# Find the wards with the highest and lowest population
+max_pop_ward = pop_by_ward.idxmax()
+min_pop_ward = pop_by_ward.idxmin()
+
+# Print obtained values
+print("Total Population by Ward:")
+print(pop_by_ward)
+print("Ward with the Highest Population:", max_pop_ward)
+print("Ward with the Lowest Population:", min_pop_ward)
 # ---------------------------------------------------------------------------------------------------------------------
 # below here, you may need to modify the script somewhat to create your map.
 # create a crs using ccrs.UTM() that corresponds to our CRS
@@ -58,7 +70,7 @@ cax = divider.append_axes("right", size="5%", pad=0.1, axes_class=plt.Axes)
 
 # plot the ward data into our axis, using
 ward_plot = wards.plot(column='Population', ax=ax, vmin=1000, vmax=8000, cmap='viridis',
-                       legend=True, cax=cax, legend_kwds={'label': 'Resident Population'})
+                       legend=True, cax=cax, legend_kwds={'label': 'Resident Population per Ward'})
 
 county_outlines = ShapelyFeature(counties['geometry'], myCRS, edgecolor='r', facecolor='none')
 
@@ -69,3 +81,4 @@ ax.legend(county_handles, ['County Boundaries'], fontsize=12, loc='upper left', 
 
 # save the figure
 fig.savefig('sample_map.png', dpi=300, bbox_inches='tight')
+plt.show()
